@@ -1,0 +1,6 @@
+bin/
+out/
+*.exe
+*.def
+*.tmp
+.vmodules_sandbox/
