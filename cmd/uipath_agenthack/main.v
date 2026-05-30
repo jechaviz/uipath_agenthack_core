@@ -6,6 +6,7 @@ import os
 
 const default_contest_root = 'C:\\git\\v_projects\\contests\\worth_it\\uipath_agenthack'
 const default_web_root = 'C:\\git\\websites\\uipath_agenthack'
+const default_profile_root = 'C:\\git\\customers\\yo\\profile'
 
 fn main() {
 	args := os.args[1..]
@@ -52,6 +53,7 @@ fn paths_from_args(args []string) agenthack.ContestPaths {
 		contest_root: arg_value(args, '--contest', default_contest_root)
 		web_root:     arg_value(args, '--web', default_web_root)
 		core_root:    os.getwd()
+		profile_root: arg_value(args, '--profile', default_profile_root)
 	}
 }
 

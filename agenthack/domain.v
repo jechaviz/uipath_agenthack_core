@@ -40,6 +40,7 @@ pub:
 	contest_root string
 	web_root     string
 	core_root    string
+	profile_root string
 }
 
 pub struct IncidentFixture {

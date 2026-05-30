@@ -23,6 +23,10 @@ pub fn validate_submission(paths ContestPaths) []CheckResult {
 		'Coding agent evidence exists', 8)
 	checks << file_check(paths.contest_root, 'automation/devpost_fill_draft.mjs',
 		'Devpost automation exists', 8)
+	checks << file_check(paths.contest_root, 'evidence/profile/yo_profile_manifest.redacted.json',
+		'Redacted profile manifest exists', 8)
+	checks << file_check(paths.contest_root, 'evidence/profile/uipath_agenthack_secure_inputs.yml',
+		'Profile secure inputs exist', 8)
 	checks << file_check(paths.web_root, 'index.html', 'Web command center exists', 8)
 	checks << file_check(paths.web_root, 'src/App.vue', 'Vue SFC shell exists', 8)
 	checks << content_check(paths.contest_root, 'README.md', 'UiPath Maestro Case',
@@ -31,6 +35,12 @@ pub fn validate_submission(paths ContestPaths) []CheckResult {
 		'README documents coding agent', 5)
 	checks << content_check(paths.contest_root, 'docs/PROD100_CHECKLIST.md',
 		'Live UiPath Automation Cloud workflow is built', 'Checklist tracks live UiPath gap', 5)
+	checks << content_check(paths.profile_root, 'jecha_profile.yml', 'uipath_agenthack_2026',
+		'Profile has UiPath AgentHack authorization', 8)
+	checks << content_check(paths.profile_root, 'jecha_profile.yml',
+		'VAULT:uipath_agenthack_2026:DEVPOST_PASSWORD_RESERVED', 'Profile has Devpost vault ref', 8)
+	checks << content_check(paths.profile_root, 'jecha_profile.yml',
+		'VAULT:uipath_agenthack_2026:UIPATH_PASSWORD_RESERVED', 'Profile has UiPath vault ref', 8)
 	checks << stale_link_check(paths.contest_root)
 	checks << line_guard_check(paths.contest_root, 'contest hub line guard')
 	checks << line_guard_check(paths.web_root, 'web app line guard')

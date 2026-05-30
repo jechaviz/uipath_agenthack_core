@@ -7,7 +7,7 @@ pub fn build_readiness_report(paths ContestPaths) ReadinessReport {
 	prod := readiness_percent(checks)
 	return ReadinessReport{
 		product:      'Agentic Incident Ops'
-		version:      '1.0.0'
+		version:      '1.1.0'
 		prod_percent: prod
 		checks:       checks
 		bands:        score_bands(prod)
