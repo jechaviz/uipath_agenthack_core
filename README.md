@@ -19,6 +19,7 @@ v run cmd\uipath_agenthack --help
 v run cmd\uipath_agenthack validate --contest C:\git\v_projects\contests\worth_it\uipath_agenthack --web C:\git\websites\uipath_agenthack
 v run cmd\uipath_agenthack score --contest C:\git\v_projects\contests\worth_it\uipath_agenthack
 v run cmd\uipath_agenthack pack --contest C:\git\v_projects\contests\worth_it\uipath_agenthack
+v run cmd\uipath_agenthack lineguard --contest C:\git\v_projects\contests\worth_it\uipath_agenthack --web C:\git\websites\uipath_agenthack
 ```
 
 ## Quality

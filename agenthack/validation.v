@@ -8,6 +8,13 @@ pub fn validate_submission(paths ContestPaths) []CheckResult {
 	checks << file_check(paths.contest_root, 'LICENSE', 'MIT license exists', 8)
 	checks << file_check(paths.contest_root, 'docs/DEVPOST_SUBMISSION_PACKET.md',
 		'Devpost packet exists', 10)
+	checks << file_check(paths.contest_root, 'docs/JUDGE_GUIDE.md', 'Judge guide exists', 8)
+	checks << file_check(paths.contest_root, 'docs/COMPETITIVE_BATTLECARD.md',
+		'Competitive battlecard exists', 8)
+	checks << file_check(paths.contest_root, 'docs/SECURITY_AND_GOVERNANCE.md',
+		'Security and governance exists', 8)
+	checks << file_check(paths.contest_root, 'docs/UIPATH_LIVE_BUILD_RUNBOOK.md',
+		'UiPath live build runbook exists', 8)
 	checks << file_check(paths.contest_root, 'docs/UIPATH_WORKFLOW_PROPOSAL.md',
 		'UiPath workflow proposal exists', 10)
 	checks << file_check(paths.contest_root, 'uipath/agentic_incident_ops.case_blueprint.json',
@@ -24,6 +31,10 @@ pub fn validate_submission(paths ContestPaths) []CheckResult {
 		'README documents coding agent', 5)
 	checks << content_check(paths.contest_root, 'docs/PROD100_CHECKLIST.md',
 		'Live UiPath Automation Cloud workflow is built', 'Checklist tracks live UiPath gap', 5)
+	checks << stale_link_check(paths.contest_root)
+	checks << line_guard_check(paths.contest_root, 'contest hub line guard')
+	checks << line_guard_check(paths.web_root, 'web app line guard')
+	checks << line_guard_check(paths.core_root, 'V core line guard')
 	return checks
 }
 
@@ -90,5 +101,50 @@ fn content_check(root string, rel string, needle string, title string, weight in
 		status: .warn
 		detail: 'needle not found: ${needle}'
 		weight: weight
+	}
+}
+
+fn stale_link_check(root string) CheckResult {
+	bad := 'contests-worth-it-uipath_agenthack'
+	files := ['README.md', 'docs/DEVPOST_SUBMISSION_PACKET.md', 'docs/PUBLIC_REPO_PLAN.md',
+		'automation/devpost_submission.json']
+	for rel in files {
+		text := os.read_file(os.join_path(root, rel)) or { continue }
+		if text.contains(bad) {
+			return CheckResult{
+				id:     'stale-link:${rel}'
+				title:  'No stale GitHub repo links'
+				status: .fail
+				detail: rel
+				weight: 8
+			}
+		}
+	}
+	return CheckResult{
+		id:     'stale-link'
+		title:  'No stale GitHub repo links'
+		status: .pass
+		detail: 'clean'
+		weight: 8
+	}
+}
+
+fn line_guard_check(root string, title string) CheckResult {
+	violations := line_limit_violations(root, 600)
+	if violations.len == 0 {
+		return CheckResult{
+			id:     title
+			title:  title
+			status: .pass
+			detail: 'all source files under 600 lines'
+			weight: 8
+		}
+	}
+	return CheckResult{
+		id:     title
+		title:  title
+		status: .fail
+		detail: violations.join('; ')
+		weight: 8
 	}
 }

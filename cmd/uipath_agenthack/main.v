@@ -24,6 +24,9 @@ fn main() {
 		'pack' {
 			run_pack(paths)
 		}
+		'lineguard' {
+			run_lineguard(paths)
+		}
 		'fixture' {
 			println(agenthack.fixture_receipt_json(agenthack.checkout_fixture()))
 		}
@@ -40,6 +43,7 @@ fn print_help() {
 	println('  validate --contest <path> --web <path>')
 	println('  score --contest <path> --web <path>')
 	println('  pack --contest <path> --web <path>')
+	println('  lineguard --contest <path> --web <path>')
 	println('  fixture')
 }
 
@@ -82,4 +86,16 @@ fn run_pack(paths agenthack.ContestPaths) {
 		exit(1)
 	}
 	println(out_dir)
+}
+
+fn run_lineguard(paths agenthack.ContestPaths) {
+	mut violations := []string{}
+	violations << agenthack.line_limit_violations(paths.contest_root, 600)
+	violations << agenthack.line_limit_violations(paths.web_root, 600)
+	violations << agenthack.line_limit_violations(paths.core_root, 600)
+	if violations.len > 0 {
+		eprintln(violations.join('\n'))
+		exit(1)
+	}
+	println('lineguard ok')
 }

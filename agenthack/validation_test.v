@@ -23,3 +23,9 @@ fn test_fixture_receipt_has_case_id() {
 	assert receipt.contains('INC-2026-0529-API')
 	assert receipt.contains('demo_ready')
 }
+
+fn test_line_guard_counts_current_module() {
+	files := guarded_files('.')
+	assert files.len > 0
+	assert line_limit_violations('.', 600).len == 0
+}
